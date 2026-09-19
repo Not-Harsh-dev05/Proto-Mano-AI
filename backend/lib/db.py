@@ -11,8 +11,11 @@ from pymongo import ASCENDING, DESCENDING, IndexModel
 load_dotenv(Path(__file__).parent.parent / ".env")
 
 mongo_url = os.environ["MONGO_URL"]
+db_name = os.environ["DB_NAME"]
+
 client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ["DB_NAME"]]
+db = client[db_name]
+
 
 logger = logging.getLogger(__name__)
 
