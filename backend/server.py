@@ -8,6 +8,9 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+
+from prometheus_fastapi_instrumentator import Instrumentator
+
 ROOT_DIR = Path(__file__).parent
 # Load env BEFORE any app/router import: auth_service validates its secret at
 # import time, so ordering here is load-bearing.
@@ -37,6 +40,7 @@ async def lifespan(app: FastAPI):
 
 # Create the main app without a prefix
 app = FastAPI(lifespan=lifespan)
+Instrumentator().instrument(app).expose(app)
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
